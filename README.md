@@ -11,9 +11,9 @@ Simple native App to track the crypto currency market values.
 
 ## Features
 
- - [] Fetch Crypto Currency via APIs
- - [] View details
- - [] Search and Filter
+ - Fetch Crypto Currency via APIs
+ - View details
+ - Search and Filter
 
 ## About
 
