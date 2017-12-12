@@ -1,11 +1,5 @@
 import { combineReducers } from 'redux';
-
-const currencyListReducer = (state = [], action) => {
-  switch(action.payload) {
-    default:
-      return state;
-  }
-};
+import currencyListReducer from './currencyListReducer';
 
 export default combineReducers({
   currencyList: currencyListReducer

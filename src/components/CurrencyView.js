@@ -12,33 +12,56 @@ import { View } from 'react-native';
 
 class CurrencyView extends React.Component {
 
-  renderDetail(iconName, text) {
-    return (
-      <View style={{ flex: 1, flexDirection: 'row' }}>
-        <Icon name={iconName} style={{
-          fontSize: 20,
-          paddingRight: 8,
-          color: 'green'
-        }} />
-        <Text>{text}</Text>
-      </View>
-    );
+  state = { details: [] }
+
+  componentWillMount() {
+    this.formatDetails(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.formatDetails(nextProps);
+  }
+
+  formatDetails(props) {
+    const { price_usd, last_updated } = props.currencyData;
+    const d = (i, c, t) => ({ iconName: i, color: c, text: t });
+    this.setState({
+      details: [
+        d('md-arrow-up', 'green', `Price USD: ${price_usd}`),
+        d('md-watch', 'orange', `Updated at: ${last_updated}`)
+      ]
+    });
+  }
+
+  renderDetails() {
+    return this.state.details.map((detail) => {
+      const { iconName, color, text } = detail;
+      return (
+        <View key={text} style={{ flex: 1, flexDirection: 'row' }}>
+          <Icon name={iconName} style={{
+            fontSize: 18, paddingRight: 8, color: color
+          }} />
+          <Text>{text}</Text>
+        </View>
+      );
+    });
   }
 
   render() {
     const { infosViewStyle, rankingTextStyle } = styles;
+    const { currencyData } = this.props;
 
     return (
-      <Card>
+      <Card style={{ marginTop: 8 }}>
         <CardItem>
           <Left>
             <Text style={rankingTextStyle}>
-              1
+              {currencyData.rank}
             </Text>
             <Icon active name="thumbs-up" />
             <Body>
-              <Text>Currency Name</Text>
-              <Text note>symbol</Text>
+              <Text>{currencyData.name}</Text>
+              <Text note>{currencyData.symbol}</Text>
             </Body>
           </Left>
         </CardItem>
@@ -47,7 +70,7 @@ class CurrencyView extends React.Component {
         <CardItem cardBody>
           <Body>
             <View style={infosViewStyle}>
-              {this.renderDetail('navigate', 'Price USD: U$ 1,00')}
+              {this.renderDetails()}
             </View>
           </Body>
         </CardItem>

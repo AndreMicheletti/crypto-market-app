@@ -24,8 +24,6 @@ class App extends React.Component {
   render() {
     const { contentsView, currencyViewStyle } = styles;
 
-    debugger;
-
     return (
       <Provider store={store}>
         <Container>
