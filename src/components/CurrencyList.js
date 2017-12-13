@@ -2,11 +2,12 @@ import React from 'react';
 import {
   View,
   Text,
-  ListView,
-  ActivityIndicator
+  FlatList
 } from 'react-native';
-import { connect } from 'react-redux';
+import { Spinner } from 'native-base';
+import { Button } from './common';
 
+import { connect } from 'react-redux';
 import { fetchCurrencyList } from '../actions';
 
 import CurrencyView from './CurrencyView';
@@ -15,46 +16,65 @@ class CurrencyList extends React.Component {
 
   componentWillMount() {
     this.props.fetchCurrencyList()
-    this.createDataStore();
-  }
-
-  componentWillUpdate() {
-    this.createDataStore();
-  }
-
-  createDataStore() {
-    const ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
-
-    this.dataSource = ds.cloneWithRows(this.props.currencyList);
   }
 
   renderRow(data) {
     return <CurrencyView currencyData={data} />
   }
 
+  renderLoading() {
+    return (
+      <View style={styles.auxViewStyle}>
+        <Spinner color='blue' />
+      </View>
+    );
+  }
+
+  renderError() {
+    const { auxViewStyle, errorTextStyle } = styles;
+    return (
+      <View style={auxViewStyle}>
+        <Text style={errorTextStyle}>
+          {this.props.error}
+        </Text>
+        <Button color="blue" onPress={() => this.props.fetchCurrencyList()}>
+          Try Again
+        </Button>
+      </View>
+    );
+  }
+
   render() {
     if (this.props.loading == true) {
+      return this.renderLoading();
+    } else if (this.props.error) {
+      return this.renderError();
+    } else {
       return (
-        <View style={{ flex: 1, alignItems: 'center' }}>
-          <ActivityIndicator size='large' />
-        </View>
+        <FlatList
+          data={this.props.list}
+          renderItem={this.renderRow}
+        />
       );
     }
-    return (
-      <ListView
-        dataSource={this.dataSource}
-        renderRow={this.renderRow}
-      />
-    );
+  }
+};
+
+const styles = {
+  auxViewStyle: {
+    flex: 1,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  errorTextStyle: {
+    paddingTop: 20, paddingBottom: 20,
+    fontSize: 25, color: 'red'
   }
 };
 
 const mapStateToProps = (state) => {
-  const { loading, currencyList, error } = state.currencyList;
-
-  return  { loading, currencyList, error };
+  return { ...state.currencyList};
 }
 
 export default connect(mapStateToProps, {

@@ -6,25 +6,30 @@ import {
 
 const INITIAL_STATE = {
   loading: false,
-  currencyList: [],
+  list: [],
   error: ''
 }
 
 const currencyListReducer = (state = INITIAL_STATE, action) => {
+  console.log(action);
   switch(action.type) {
     case FETCH_CURRENCIES_START:
-      return { ...state, loading: true, error: '' }
+      return {
+        loading: true,
+        list: [],
+        error: ''
+      }
     case FETCH_CURRENCIES_SUCCESS:
       return {
         loading: false,
-        currencyList: action.payload,
+        list: action.payload,
         error: ''
       }
     case FETCH_CURRENCIES_FAILURE:
       return {
         loading: false,
-        currencyList: [],
-        error: ''
+        list: [],
+        error: action.payload
       }
     default:
       return state;

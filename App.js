@@ -17,6 +17,13 @@ import ReduxThunk from 'redux-thunk';
 
 const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
 
+import axios from 'axios';
+axios.get('https://api.coinmarketcap.com/v1/ticker').then(response => {
+  console.log('RESPONSE!');
+  console.log(response);
+})
+console.log(axios.get);
+
 // Component import
 import CurrencyList from './src/components/CurrencyList';
 
