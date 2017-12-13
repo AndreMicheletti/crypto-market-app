@@ -19,7 +19,8 @@ class CurrencyList extends React.Component {
   }
 
   renderRow(data) {
-    return <CurrencyView currencyData={data} />
+    // console.log(data);
+    return <CurrencyView key={data.index} currencyData={data.item} />
   }
 
   renderLoading() {
@@ -54,6 +55,7 @@ class CurrencyList extends React.Component {
         <FlatList
           data={this.props.list}
           renderItem={this.renderRow}
+          keyExtractor={(item, index) => index}
         />
       );
     }
@@ -74,7 +76,8 @@ const styles = {
 };
 
 const mapStateToProps = (state) => {
-  return { ...state.currencyList};
+  const { list, error, loading } = state.currencyList;
+  return { list, error, loading };
 }
 
 export default connect(mapStateToProps, {

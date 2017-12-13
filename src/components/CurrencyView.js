@@ -24,11 +24,12 @@ class CurrencyView extends React.Component {
 
   formatDetails(props) {
     const { price_usd, last_updated } = props.currencyData;
+    var date = new Date(parseInt(last_updated) * 1000);
     const d = (i, c, t) => ({ iconName: i, color: c, text: t });
     this.setState({
       details: [
-        d('md-arrow-up', 'green', `Price USD: ${price_usd}`),
-        d('md-watch', 'orange', `Updated at: ${last_updated}`)
+        d('logo-usd', 'green', 'Price: US$' + price_usd),
+        d('ios-clock-outline', 'black', `Updated at: ${date.toDateString()}`)
       ]
     });
   }
@@ -39,7 +40,7 @@ class CurrencyView extends React.Component {
       return (
         <View key={text} style={{ flex: 1, flexDirection: 'row' }}>
           <Icon name={iconName} style={{
-            fontSize: 18, paddingRight: 8, color: color
+            fontSize: 18, paddingRight: 8, color: color, marginTop: 2
           }} />
           <Text>{text}</Text>
         </View>
@@ -58,7 +59,7 @@ class CurrencyView extends React.Component {
             <Text style={rankingTextStyle}>
               {currencyData.rank}
             </Text>
-            <Icon active name="thumbs-up" />
+            <Icon active name="md-cash" />
             <Body>
               <Text>{currencyData.name}</Text>
               <Text note>{currencyData.symbol}</Text>
