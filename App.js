@@ -7,7 +7,7 @@ import {
   Content,
   Text
 } from 'native-base';
-import { View } from 'react-native';
+import { View, Text, Image } from 'react-native';
 
 // Redux import and setup
 import reducers from './src/reducers';
@@ -26,7 +26,7 @@ class App extends React.Component {
 
     return (
       <Provider store={store}>
-        <Container>
+        {/* <Container>
           <Header>
             <Body style={{ alignItems: 'center' }}>
               <Title>Crypto Market App</Title>
@@ -38,7 +38,10 @@ class App extends React.Component {
               <CurrencyList />
             </View>
           </Content>
-        </Container>
+        </Container> */}
+        <View style={{ flex: 1}}>
+          <Image source={require('./src/assets/background.png')}/>
+        </View>
       </Provider>
     );
   }
