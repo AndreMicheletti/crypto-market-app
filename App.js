@@ -21,6 +21,7 @@ const reducerCreate = params => {
 // Compontents
 import AnimatedSplash from './src/AnimatedSplash';
 import AppMain from './src/AppMain';
+import SideBar from './src/SideBar';
 
 class App extends React.Component {
 

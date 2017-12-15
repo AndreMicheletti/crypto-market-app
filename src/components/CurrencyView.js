@@ -29,7 +29,7 @@ class CurrencyView extends React.Component {
     this.setState({
       details: [
         d('logo-usd', 'green', 'Price: US$' + price_usd),
-        d('ios-clock-outline', 'black', `Updated at: ${date.toDateString()}`)
+        d('ios-clock-outline', 'blue', `Updated at: ${date.toDateString()}`)
       ]
     });
   }
@@ -49,20 +49,24 @@ class CurrencyView extends React.Component {
   }
 
   render() {
-    const { infosViewStyle, rankingTextStyle } = styles;
+    const { infosViewStyle, rankingTextStyle, primaryTextStyle } = styles;
     const { currencyData } = this.props;
 
     return (
       <Card style={{ marginTop: 8 }}>
         <CardItem>
           <Left>
-            <Text style={rankingTextStyle}>
+            <Text style={{...rankingTextStyle, ...primaryTextStyle}}>
               {currencyData.rank}
             </Text>
-            <Icon active name="md-cash" />
+            <Icon active name="md-cash" style={{ color: '#FFB700' }} />
             <Body>
-              <Text>{currencyData.name}</Text>
-              <Text note>{currencyData.symbol}</Text>
+              <Text style={primaryTextStyle}>
+                {currencyData.name}
+              </Text>
+              <Text note>
+                {currencyData.symbol}
+              </Text>
             </Body>
           </Left>
         </CardItem>
@@ -81,6 +85,10 @@ class CurrencyView extends React.Component {
 }
 
 const styles = {
+  primaryTextStyle: {
+    color: '#FFB700',
+    fontWeight: '600'
+  },
   rankingTextStyle: {
     fontSize: 20,
     position: 'relative',

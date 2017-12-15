@@ -112,7 +112,7 @@ export default {
   cardDefaultBg: "#fff",
 
   // Color
-  brandPrimary: "#2874F0",
+  brandPrimary: "#6D00FF",
   brandInfo: "#62B1F6",
   brandSuccess: "#5cb85c",
   brandDanger: "#d9534f",
@@ -158,8 +158,8 @@ export default {
 
   // Header
   toolbarBtnColor: "#fff",
-  toolbarDefaultBg: "#2874F0",
-  toolbarHeight: platform === "ios" ? (isIphoneX ? 88 : 64) : 56,
+  toolbarDefaultBg: "#6D00FF",
+  toolbarHeight: (platform === "ios" ? (isIphoneX ? 88 : 64) : 56) * 0.75,
   toolbarIconSize: platform === "ios" ? 20 : 22,
   toolbarSearchIconSize: platform === "ios" ? 20 : 23,
   toolbarInputColor: platform === "ios" ? "#CECDD2" : "#fff",
