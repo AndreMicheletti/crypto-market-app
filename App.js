@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  Container,
-  Header,
-  Body,
-  Title,
-  Content,
-  Text
-} from 'native-base';
-import { View, Text, Image } from 'react-native';
+import { StyleProvider } from 'native-base';
+import { Scene, Router, Reducer, Stack } from 'react-native-router-flux';
 
 // Redux import and setup
 import reducers from './src/reducers';
@@ -15,47 +8,35 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
 
+// Store create
 const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
+const reducerCreate = params => {
+  const defaultReducer = new Reducer(params);
+  return (state, action) => {
+    console.log('ACTION:', action);
+    return defaultReducer(state, action);
+  };
+};
 
-// Component import
-import CurrencyList from './src/components/CurrencyList';
+// Compontents
+import AnimatedSplash from './src/AnimatedSplash';
+import AppMain from './src/AppMain';
 
 class App extends React.Component {
-  render() {
-    const { contentsView, currencyViewStyle } = styles;
 
+  render() {
     return (
       <Provider store={store}>
-        {/* <Container>
-          <Header>
-            <Body style={{ alignItems: 'center' }}>
-              <Title>Crypto Market App</Title>
-            </Body>
-          </Header>
+        <Router createReducer={reducerCreate}>
+          <Stack key='root' hideNavBar>
+            <Scene key='splash' component={AnimatedSplash} initial/>
+            <Scene key='appmain' component={AppMain} />
+          </Stack>
 
-          <Content>
-            <View style={currencyViewStyle}>
-              <CurrencyList />
-            </View>
-          </Content>
-        </Container> */}
-        <View style={{ flex: 1}}>
-          <Image source={require('./src/assets/background.png')}/>
-        </View>
+        </Router>
       </Provider>
     );
   }
 }
-
-const styles = {
-  contentsView: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  currencyViewStyle: {
-    paddingLeft: 10, paddingRight: 10
-  }
-};
 
 export default App;
