@@ -5,7 +5,8 @@ import {
   Header,
   Body,
   Content,
-  Title
+  Title,
+  StyleProvider
 } from 'native-base';
 
 // Theme imports
