@@ -37,7 +37,7 @@ export default class AppMain extends React.Component {
       <StyleProvider style={getTheme(material)}>
         <Drawer
           ref={(ref) => { this.drawer = ref }}
-          component={SideBar}
+          component={<SideBar />}
           onClose={this.closeDrawer.bind(this)}
         >
           <Container>

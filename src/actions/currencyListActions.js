@@ -1,7 +1,8 @@
 import {
   FETCH_CURRENCIES_START,
   FETCH_CURRENCIES_SUCCESS,
-  FETCH_CURRENCIES_FAILURE
+  FETCH_CURRENCIES_FAILURE,
+  FETCH_ICON_SUCCESS
 } from './types';
 
 import axios from 'axios';
@@ -52,4 +53,29 @@ const handleFetchSuccess = (dispatch, response) => {
     type: FETCH_CURRENCIES_SUCCESS,
     payload: response.data
   })
+}
+
+const fetchIcon = (coinName) => {
+  return (dispatch) => {
+    axios(`https://files.coinmarketcap.com/static/img/coins/32x32/${coinName.toLowerCase()}.png`, {
+      method: 'get', headers: {
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
+      }
+    })
+    // Handle request error
+    .catch((error) => {
+      return Promise.reject(error);
+    })
+    // Handle request success
+    .then((response) => {
+      dispatch({
+        type: FETCH_ICON_SUCCESS,
+        payload: {
+          name: iconName,
+          data: response.data
+        }
+      })
+      return;
+    })
+  }
 }
