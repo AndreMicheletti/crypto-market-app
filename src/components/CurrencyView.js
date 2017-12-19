@@ -8,7 +8,10 @@ import {
   Text,
   Icon
 } from 'native-base';
-import { View } from 'react-native';
+import { Image, View, TouchableOpacity as Touchable } from 'react-native';
+
+import { connect } from 'react-redux';
+import { fetchIcon } from '../actions';
 
 class CurrencyView extends React.Component {
 
@@ -48,38 +51,57 @@ class CurrencyView extends React.Component {
     });
   }
 
+  renderIcon() {
+    const { icon } = this.props;
+    if (icon) {
+      return (<Image source={{ uri: icon }} style={{ width: 32, height: 32 }} />)
+    } else {
+      return (<Icon active name="md-cash" style={{ color: '#FFB700' }} />);
+    }
+  }
+
+  onClick() {
+    const { fetchIcon, currencyData } = this.props;
+    console.log('clicked!');
+    fetchIcon(currencyData.name);
+  }
+
   render() {
     const { infosViewStyle, rankingTextStyle, primaryTextStyle } = styles;
     const { currencyData } = this.props;
 
     return (
-      <Card style={{ marginTop: 8 }}>
-        <CardItem>
-          <Left>
-            <Text style={{...rankingTextStyle, ...primaryTextStyle}}>
-              {currencyData.rank}
-            </Text>
-            <Icon active name="md-cash" style={{ color: '#FFB700' }} />
-            <Body>
-              <Text style={primaryTextStyle}>
-                {currencyData.name}
-              </Text>
-              <Text note>
-                {currencyData.symbol}
-              </Text>
-            </Body>
-          </Left>
-        </CardItem>
+      <Touchable onPress={this.onClick.bind(this)}>
+        <View>
+          <Card style={{ marginTop: 8 }}>
+            <CardItem>
+              <Left>
+                <Text style={{...rankingTextStyle, ...primaryTextStyle}}>
+                  {currencyData.rank}
+                </Text>
+                {this.renderIcon()}
+                <Body>
+                  <Text style={primaryTextStyle}>
+                    {currencyData.name}
+                  </Text>
+                  <Text note>
+                    {currencyData.symbol}
+                  </Text>
+                </Body>
+              </Left>
+            </CardItem>
 
 
-        <CardItem cardBody>
-          <Body>
-            <View style={infosViewStyle}>
-              {this.renderDetails()}
-            </View>
-          </Body>
-        </CardItem>
-      </Card>
+            <CardItem cardBody>
+              <Body>
+                <View style={infosViewStyle}>
+                  {this.renderDetails()}
+                </View>
+              </Body>
+            </CardItem>
+          </Card>
+        </View>
+      </Touchable>
     );
   }
 }
@@ -103,4 +125,10 @@ const styles = {
   }
 };
 
-export default CurrencyView;
+const mapStateToProps = (state) => {
+  return { icon: state.currencyList.icon };
+}
+
+export default connect(mapStateToProps, {
+  fetchIcon
+})(CurrencyView);

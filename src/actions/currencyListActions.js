@@ -55,25 +55,25 @@ const handleFetchSuccess = (dispatch, response) => {
   })
 }
 
-const fetchIcon = (coinName) => {
+export const fetchIcon = (coinName) => {
+  let url = `https://files.coinmarketcap.com/static/img/coins/32x32/${coinName.toLowerCase()}.png`;
   return (dispatch) => {
-    axios(`https://files.coinmarketcap.com/static/img/coins/32x32/${coinName.toLowerCase()}.png`, {
-      method: 'get', headers: {
-        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
-      }
-    })
+    axios.get(url, { responseType: 'arraybuffer' })
     // Handle request error
     .catch((error) => {
       return Promise.reject(error);
     })
     // Handle request success
     .then((response) => {
+      let value = btoa(
+        new Uint8Array(response.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          '',
+        ),
+      );
       dispatch({
         type: FETCH_ICON_SUCCESS,
-        payload: {
-          name: iconName,
-          data: response.data
-        }
+        payload: 'data:image/png;base64,' + value
       })
       return;
     })

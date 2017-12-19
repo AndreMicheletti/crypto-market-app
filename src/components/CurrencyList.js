@@ -8,7 +8,7 @@ import { Spinner } from 'native-base';
 import { Button } from './common';
 
 import { connect } from 'react-redux';
-import { fetchCurrencyList } from '../actions';
+import { fetchCurrencyList, fetchIcon } from '../actions';
 
 import CurrencyView from './CurrencyView';
 
@@ -20,7 +20,12 @@ class CurrencyList extends React.Component {
 
   renderRow(data) {
     // console.log(data);
-    return <CurrencyView key={data.index} currencyData={data.item} />
+    return (
+      <CurrencyView
+        key={data.index}
+        currencyData={data.item}
+      />
+    );
   }
 
   renderLoading() {
@@ -81,5 +86,6 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-  fetchCurrencyList
+  fetchCurrencyList,
+  fetchIcon
 })(CurrencyList);
